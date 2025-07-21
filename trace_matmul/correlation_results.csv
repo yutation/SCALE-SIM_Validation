@@ -1,0 +1,4 @@
+correlation_type,correlation_coefficient,p_value,interpretation
+Pearson,0.8984098202354616,8.793638043374752e-46,Linear correlation
+Spearman,0.8271804055056449,1.407478244230898e-32,Monotonic correlation (rank-based)
+Kendall,0.671885348954112,2.0811326046470274e-26,Monotonic correlation (concordant pairs)

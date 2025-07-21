@@ -1,0 +1,192 @@
+=== Detailed Cycle Configuration Analysis ===
+
+Cycles: 383.0 (16 configurations)
+--------------------------------------------------------------------------------
+  matmul_2x2x32   | 2x2x32     | Main:    1.070 us | Fusion:    0.596 us | Diff:    0.474 us
+  matmul_2x2x8    | 2x2x8      | Main:    1.074 us | Fusion:    0.594 us | Diff:    0.480 us
+  matmul_2x8x2    | 2x8x2      | Main:    1.074 us | Fusion:    0.596 us | Diff:    0.479 us
+  matmul_2x2x2    | 2x2x2      | Main:    1.076 us | Fusion:    0.596 us | Diff:    0.480 us
+  matmul_2x2x128  | 2x2x128    | Main:    1.083 us | Fusion:    0.613 us | Diff:    0.470 us
+  matmul_2x128x2  | 2x128x2    | Main:    1.086 us | Fusion:    0.613 us | Diff:    0.473 us
+  matmul_2x32x2   | 2x32x2     | Main:    1.091 us | Fusion:    0.611 us | Diff:    0.480 us
+  matmul_2x8x8    | 2x8x8      | Main:    1.384 us | Fusion:    0.914 us | Diff:    0.470 us
+  matmul_2x8x32   | 2x8x32     | Main:    1.390 us | Fusion:    0.914 us | Diff:    0.476 us
+  matmul_2x128x8  | 2x128x8    | Main:    1.396 us | Fusion:    0.921 us | Diff:    0.474 us
+  matmul_2x8x128  | 2x8x128    | Main:    1.409 us | Fusion:    0.936 us | Diff:    0.473 us
+  matmul_2x32x8   | 2x32x8     | Main:    1.466 us | Fusion:    0.929 us | Diff:    0.537 us
+  matmul_2x32x32  | 2x32x32    | Main:    1.469 us | Fusion:    0.950 us | Diff:    0.519 us
+  matmul_2x128x32 | 2x128x32   | Main:    1.476 us | Fusion:    0.960 us | Diff:    0.516 us
+  matmul_2x32x128 | 2x32x128   | Main:    1.483 us | Fusion:    0.951 us | Diff:    0.531 us
+  matmul_2x128x128 | 2x128x128  | Main:    1.560 us | Fusion:    1.039 us | Diff:    0.522 us
+
+  Main Duration Stats: Mean=1.287 us, Std=0.194 us, Range=0.490 us
+  Fusion Duration Stats: Mean=0.796 us, Std=0.178 us, Range=0.444 us
+  Main-Fusion Diff Stats: Mean=0.491 us, Std=0.024 us, Range=0.067 us
+
+Cycles: 389.0 (16 configurations)
+--------------------------------------------------------------------------------
+  matmul_8x2x2    | 8x2x2      | Main:    1.190 us | Fusion:    0.711 us | Diff:    0.479 us
+  matmul_8x2x32   | 8x2x32     | Main:    1.390 us | Fusion:    0.919 us | Diff:    0.472 us
+  matmul_8x2x8    | 8x2x8      | Main:    1.391 us | Fusion:    0.920 us | Diff:    0.471 us
+  matmul_8x2x128  | 8x2x128    | Main:    1.401 us | Fusion:    0.929 us | Diff:    0.473 us
+  matmul_8x32x8   | 8x32x8     | Main:    1.413 us | Fusion:    0.941 us | Diff:    0.471 us
+  matmul_8x8x32   | 8x8x32     | Main:    1.414 us | Fusion:    0.943 us | Diff:    0.471 us
+  matmul_8x128x8  | 8x128x8    | Main:    1.414 us | Fusion:    0.944 us | Diff:    0.470 us
+  matmul_8x8x8    | 8x8x8      | Main:    1.418 us | Fusion:    0.944 us | Diff:    0.474 us
+  matmul_8x32x32  | 8x32x32    | Main:    1.443 us | Fusion:    0.959 us | Diff:    0.484 us
+  matmul_8x128x32 | 8x128x32   | Main:    1.446 us | Fusion:    0.960 us | Diff:    0.486 us
+  matmul_8x32x128 | 8x32x128   | Main:    1.447 us | Fusion:    0.961 us | Diff:    0.486 us
+  matmul_8x32x2   | 8x32x2     | Main:    1.503 us | Fusion:    1.042 us | Diff:    0.461 us
+  matmul_8x128x2  | 8x128x2    | Main:    1.504 us | Fusion:    1.043 us | Diff:    0.461 us
+  matmul_8x8x2    | 8x8x2      | Main:    1.513 us | Fusion:    1.043 us | Diff:    0.470 us
+  matmul_8x8x128  | 8x8x128    | Main:    1.606 us | Fusion:    1.066 us | Diff:    0.540 us
+  matmul_8x128x128 | 8x128x128  | Main:    1.811 us | Fusion:    1.052 us | Diff:    0.760 us
+
+  Main Duration Stats: Mean=1.457 us, Std=0.128 us, Range=0.621 us
+  Fusion Duration Stats: Mean=0.961 us, Std=0.085 us, Range=0.354 us
+  Main-Fusion Diff Stats: Mean=0.496 us, Std=0.073 us, Range=0.298 us
+
+Cycles: 413.0 (16 configurations)
+--------------------------------------------------------------------------------
+  matmul_32x2x2   | 32x2x2     | Main:    1.201 us | Fusion:    0.727 us | Diff:    0.474 us
+  matmul_32x2x128 | 32x2x128   | Main:    1.417 us | Fusion:    0.937 us | Diff:    0.480 us
+  matmul_32x2x32  | 32x2x32    | Main:    1.426 us | Fusion:    0.943 us | Diff:    0.483 us
+  matmul_32x2x8   | 32x2x8     | Main:    1.466 us | Fusion:    0.937 us | Diff:    0.528 us
+  matmul_32x8x8   | 32x8x8     | Main:    1.520 us | Fusion:    1.050 us | Diff:    0.470 us
+  matmul_32x32x32 | 32x32x32   | Main:    1.560 us | Fusion:    1.020 us | Diff:    0.540 us
+  matmul_32x128x2 | 32x128x2   | Main:    1.561 us | Fusion:    1.091 us | Diff:    0.470 us
+  matmul_32x128x32 | 32x128x32  | Main:    1.563 us | Fusion:    1.023 us | Diff:    0.540 us
+  matmul_32x8x128 | 32x8x128   | Main:    1.566 us | Fusion:    0.962 us | Diff:    0.604 us
+  matmul_32x32x2  | 32x32x2    | Main:    1.571 us | Fusion:    1.101 us | Diff:    0.470 us
+  matmul_32x32x8  | 32x32x8    | Main:    1.574 us | Fusion:    1.100 us | Diff:    0.474 us
+  matmul_32x128x8 | 32x128x8   | Main:    1.576 us | Fusion:    1.104 us | Diff:    0.471 us
+  matmul_32x8x2   | 32x8x2     | Main:    1.604 us | Fusion:    1.134 us | Diff:    0.470 us
+  matmul_32x8x32  | 32x8x32    | Main:    1.607 us | Fusion:    1.120 us | Diff:    0.487 us
+  matmul_32x128x128 | 32x128x128 | Main:    1.643 us | Fusion:    1.074 us | Diff:    0.568 us
+  matmul_32x32x128 | 32x32x128  | Main:    1.700 us | Fusion:    1.016 us | Diff:    0.684 us
+
+  Main Duration Stats: Mean=1.535 us, Std=0.115 us, Range=0.499 us
+  Fusion Duration Stats: Mean=1.021 us, Std=0.104 us, Range=0.407 us
+  Main-Fusion Diff Stats: Mean=0.513 us, Std=0.062 us, Range=0.214 us
+
+Cycles: 509.0 (16 configurations)
+--------------------------------------------------------------------------------
+  matmul_128x2x2  | 128x2x2    | Main:    1.202 us | Fusion:    0.727 us | Diff:    0.474 us
+  matmul_128x2x8  | 128x2x8    | Main:    1.409 us | Fusion:    0.934 us | Diff:    0.474 us
+  matmul_128x2x32 | 128x2x32   | Main:    1.434 us | Fusion:    0.957 us | Diff:    0.477 us
+  matmul_128x8x32 | 128x8x32   | Main:    1.444 us | Fusion:    0.960 us | Diff:    0.484 us
+  matmul_128x8x2  | 128x8x2    | Main:    1.512 us | Fusion:    1.043 us | Diff:    0.469 us
+  matmul_128x2x128 | 128x2x128  | Main:    1.556 us | Fusion:    1.049 us | Diff:    0.507 us
+  matmul_128x8x128 | 128x8x128  | Main:    1.558 us | Fusion:    1.048 us | Diff:    0.510 us
+  matmul_128x32x8 | 128x32x8   | Main:    1.616 us | Fusion:    1.100 us | Diff:    0.516 us
+  matmul_128x8x8  | 128x8x8    | Main:    1.630 us | Fusion:    1.161 us | Diff:    0.469 us
+  matmul_128x32x128 | 128x32x128 | Main:    1.644 us | Fusion:    1.077 us | Diff:    0.567 us
+  matmul_128x128x2 | 128x128x2  | Main:    1.691 us | Fusion:    1.230 us | Diff:    0.462 us
+  matmul_128x128x8 | 128x128x8  | Main:    1.703 us | Fusion:    1.232 us | Diff:    0.471 us
+  matmul_128x128x32 | 128x128x32 | Main:    1.730 us | Fusion:    1.248 us | Diff:    0.482 us
+  matmul_128x32x2 | 128x32x2   | Main:    1.750 us | Fusion:    1.290 us | Diff:    0.460 us
+  matmul_128x128x128 | 128x128x128 | Main:    1.804 us | Fusion:    1.240 us | Diff:    0.564 us
+  matmul_128x32x32 | 128x32x32  | Main:    1.821 us | Fusion:    1.214 us | Diff:    0.607 us
+
+  Main Duration Stats: Mean=1.594 us, Std=0.165 us, Range=0.620 us
+  Fusion Duration Stats: Mean=1.094 us, Std=0.151 us, Range=0.563 us
+  Main-Fusion Diff Stats: Mean=0.500 us, Std=0.044 us, Range=0.147 us
+
+Cycles: 893.0 (16 configurations)
+--------------------------------------------------------------------------------
+  matmul_512x2x8  | 512x2x8    | Main:    1.517 us | Fusion:    0.983 us | Diff:    0.534 us
+  matmul_512x8x32 | 512x8x32   | Main:    1.603 us | Fusion:    1.030 us | Diff:    0.573 us
+  matmul_512x2x2  | 512x2x2    | Main:    1.619 us | Fusion:    1.078 us | Diff:    0.540 us
+  matmul_512x8x2  | 512x8x2    | Main:    1.624 us | Fusion:    1.083 us | Diff:    0.541 us
+  matmul_512x8x8  | 512x8x8    | Main:    1.626 us | Fusion:    1.087 us | Diff:    0.539 us
+  matmul_512x2x32 | 512x2x32   | Main:    1.644 us | Fusion:    1.028 us | Diff:    0.616 us
+  matmul_512x32x2 | 512x32x2   | Main:    1.684 us | Fusion:    1.157 us | Diff:    0.527 us
+  matmul_512x32x8 | 512x32x8   | Main:    1.704 us | Fusion:    1.167 us | Diff:    0.537 us
+  matmul_512x2x128 | 512x2x128  | Main:    1.890 us | Fusion:    1.200 us | Diff:    0.690 us
+  matmul_512x32x32 | 512x32x32  | Main:    1.929 us | Fusion:    1.363 us | Diff:    0.566 us
+  matmul_512x128x8 | 512x128x8  | Main:    1.994 us | Fusion:    1.459 us | Diff:    0.536 us
+  matmul_512x32x128 | 512x32x128 | Main:    2.016 us | Fusion:    1.313 us | Diff:    0.703 us
+  matmul_512x8x128 | 512x8x128  | Main:    2.121 us | Fusion:    1.204 us | Diff:    0.917 us
+  matmul_512x128x32 | 512x128x32 | Main:    2.186 us | Fusion:    1.620 us | Diff:    0.566 us
+  matmul_512x128x2 | 512x128x2  | Main:    2.206 us | Fusion:    1.576 us | Diff:    0.630 us
+  matmul_512x128x128 | 512x128x128 | Main:    2.337 us | Fusion:    1.647 us | Diff:    0.690 us
+
+  Main Duration Stats: Mean=1.856 us, Std=0.261 us, Range=0.820 us
+  Fusion Duration Stats: Mean=1.250 us, Std=0.221 us, Range=0.664 us
+  Main-Fusion Diff Stats: Mean=0.607 us, Std=0.103 us, Range=0.390 us
+
+Cycles: 1535.0 (8 configurations)
+--------------------------------------------------------------------------------
+  matmul_2x8x512  | 2x8x512    | Main:    1.468 us | Fusion:    0.991 us | Diff:    0.477 us
+  matmul_2x2x512  | 2x2x512    | Main:    1.486 us | Fusion:    1.016 us | Diff:    0.470 us
+  matmul_2x512x2  | 2x512x2    | Main:    1.494 us | Fusion:    0.964 us | Diff:    0.530 us
+  matmul_2x32x512 | 2x32x512   | Main:    1.572 us | Fusion:    1.060 us | Diff:    0.512 us
+  matmul_2x512x8  | 2x512x8    | Main:    1.677 us | Fusion:    0.981 us | Diff:    0.696 us
+  matmul_2x512x32 | 2x512x32   | Main:    1.711 us | Fusion:    1.010 us | Diff:    0.701 us
+  matmul_2x512x128 | 2x512x128  | Main:    1.894 us | Fusion:    1.194 us | Diff:    0.700 us
+  matmul_2x128x512 | 2x128x512  | Main:    2.210 us | Fusion:    1.570 us | Diff:    0.640 us
+
+  Main Duration Stats: Mean=1.689 us, Std=0.255 us, Range=0.742 us
+  Fusion Duration Stats: Mean=1.098 us, Std=0.204 us, Range=0.606 us
+  Main-Fusion Diff Stats: Mean=0.591 us, Std=0.104 us, Range=0.231 us
+
+Cycles: 1559.0 (8 configurations)
+--------------------------------------------------------------------------------
+  matmul_8x2x512  | 8x2x512    | Main:    1.464 us | Fusion:    0.981 us | Diff:    0.483 us
+  matmul_8x8x512  | 8x8x512    | Main:    1.543 us | Fusion:    0.999 us | Diff:    0.544 us
+  matmul_8x512x32 | 8x512x32   | Main:    1.603 us | Fusion:    1.030 us | Diff:    0.573 us
+  matmul_8x512x2  | 8x512x2    | Main:    1.614 us | Fusion:    1.086 us | Diff:    0.529 us
+  matmul_8x32x512 | 8x32x512   | Main:    1.649 us | Fusion:    1.093 us | Diff:    0.556 us
+  matmul_8x512x8  | 8x512x8    | Main:    1.848 us | Fusion:    1.091 us | Diff:    0.757 us
+  matmul_8x512x128 | 8x512x128  | Main:    1.930 us | Fusion:    1.203 us | Diff:    0.727 us
+  matmul_8x128x512 | 8x128x512  | Main:    2.437 us | Fusion:    1.586 us | Diff:    0.851 us
+
+  Main Duration Stats: Mean=1.761 us, Std=0.314 us, Range=0.973 us
+  Fusion Duration Stats: Mean=1.134 us, Std=0.195 us, Range=0.604 us
+  Main-Fusion Diff Stats: Mean=0.628 us, Std=0.132 us, Range=0.368 us
+
+Cycles: 1655.0 (8 configurations)
+--------------------------------------------------------------------------------
+  matmul_32x2x512 | 32x2x512   | Main:    1.596 us | Fusion:    1.077 us | Diff:    0.518 us
+  matmul_32x512x8 | 32x512x8   | Main:    1.701 us | Fusion:    1.166 us | Diff:    0.536 us
+  matmul_32x512x32 | 32x512x32  | Main:    1.710 us | Fusion:    1.136 us | Diff:    0.574 us
+  matmul_32x512x2 | 32x512x2   | Main:    1.749 us | Fusion:    1.159 us | Diff:    0.590 us
+  matmul_32x32x512 | 32x32x512  | Main:    1.760 us | Fusion:    1.187 us | Diff:    0.573 us
+  matmul_32x8x512 | 32x8x512   | Main:    1.860 us | Fusion:    1.343 us | Diff:    0.517 us
+  matmul_32x512x128 | 32x512x128 | Main:    2.321 us | Fusion:    1.483 us | Diff:    0.839 us
+  matmul_32x128x512 | 32x128x512 | Main:    2.380 us | Fusion:    1.737 us | Diff:    0.643 us
+
+  Main Duration Stats: Mean=1.885 us, Std=0.297 us, Range=0.784 us
+  Fusion Duration Stats: Mean=1.286 us, Std=0.224 us, Range=0.660 us
+  Main-Fusion Diff Stats: Mean=0.599 us, Std=0.105 us, Range=0.321 us
+
+Cycles: 2039.0 (8 configurations)
+--------------------------------------------------------------------------------
+  matmul_128x512x2 | 128x512x2  | Main:    1.966 us | Fusion:    1.443 us | Diff:    0.523 us
+  matmul_128x512x8 | 128x512x8  | Main:    1.971 us | Fusion:    1.436 us | Diff:    0.536 us
+  matmul_128x512x32 | 128x512x32 | Main:    2.061 us | Fusion:    1.457 us | Diff:    0.604 us
+  matmul_128x2x512 | 128x2x512  | Main:    2.220 us | Fusion:    1.571 us | Diff:    0.649 us
+  matmul_128x8x512 | 128x8x512  | Main:    2.354 us | Fusion:    1.592 us | Diff:    0.763 us
+  matmul_128x32x512 | 128x32x512 | Main:    2.606 us | Fusion:    1.971 us | Diff:    0.634 us
+  matmul_128x512x128 | 128x512x128 | Main:    2.606 us | Fusion:    1.630 us | Diff:    0.976 us
+  matmul_128x128x512 | 128x128x512 | Main:    2.858 us | Fusion:    2.220 us | Diff:    0.638 us
+
+  Main Duration Stats: Mean=2.330 us, Std=0.333 us, Range=0.893 us
+  Fusion Duration Stats: Mean=1.665 us, Std=0.283 us, Range=0.784 us
+  Main-Fusion Diff Stats: Mean=0.665 us, Std=0.146 us, Range=0.453 us
+
+Cycles: 3575.0 (8 configurations)
+--------------------------------------------------------------------------------
+  matmul_512x2x512 | 512x2x512  | Main:    2.644 us | Fusion:    1.546 us | Diff:    1.098 us
+  matmul_512x8x512 | 512x8x512  | Main:    2.646 us | Fusion:    1.556 us | Diff:    1.090 us
+  matmul_512x32x512 | 512x32x512 | Main:    2.817 us | Fusion:    1.749 us | Diff:    1.069 us
+  matmul_512x512x8 | 512x512x8  | Main:    3.263 us | Fusion:    2.766 us | Diff:    0.497 us
+  matmul_512x512x2 | 512x512x2  | Main:    3.273 us | Fusion:    2.783 us | Diff:    0.490 us
+  matmul_512x512x32 | 512x512x32 | Main:    3.353 us | Fusion:    2.781 us | Diff:    0.572 us
+  matmul_512x512x128 | 512x512x128 | Main:    4.017 us | Fusion:    3.353 us | Diff:    0.664 us
+  matmul_512x128x512 | 512x128x512 | Main:    4.083 us | Fusion:    3.023 us | Diff:    1.060 us
+
+  Main Duration Stats: Mean=3.262 us, Std=0.562 us, Range=1.439 us
+  Fusion Duration Stats: Mean=2.444 us, Std=0.714 us, Range=1.807 us
+  Main-Fusion Diff Stats: Mean=0.818 us, Std=0.285 us, Range=0.609 us
+

@@ -1,0 +1,5 @@
+Layer Name,IFMAP Height,IFMAP Width,Filter Height,Filter Width,Channels,Num Filters,Strides
+convolution_64x64,64,64,3,3,3,32,1
+convolution_256x256,256,256,3,3,3,32,1
+convolution_1024x1024,1024,1024,3,3,3,32,1
+convolution_4096x4096,4096,4096,3,3,3,32,1 

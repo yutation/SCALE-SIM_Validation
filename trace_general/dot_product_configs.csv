@@ -1,0 +1,5 @@
+Layer,M,N,K
+dot_product_64,64,1,1
+dot_product_256,256,1,1
+dot_product_1024,1024,1,1
+dot_product_4096,4096,1,1 
