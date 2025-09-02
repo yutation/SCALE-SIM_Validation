@@ -1,0 +1,13 @@
+SIMPLE LINEAR FUNCTION ANALYSIS
+========================================
+Input file: kernel_report_updated.csv
+Linear Function: fusion_avg = 0.002762 * total_cycles + -0.059902
+Slope: 0.002762
+Intercept: -0.059902
+R-squared: 0.789323
+Interpretation: 78.93% of variance explained
+
+Example Predictions:
+total_cycles = 400 → fusion_avg = 1.044999
+total_cycles = 450 → fusion_avg = 1.183112
+total_cycles = 500 → fusion_avg = 1.321224

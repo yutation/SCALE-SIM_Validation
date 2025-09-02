@@ -1,0 +1,22 @@
+COMPREHENSIVE LINEAR REGRESSION RESULTS (NO INTERCEPT)
+============================================================
+Input file: kernel_report_updated_merged_02.csv
+Linear Function: fusion_avg = 0.000488 * total_cycles
+Slope: 0.000488
+Intercept: 0.000000 (forced to 0)
+R-squared: 0.505814
+MSE: 0.686427
+RMSE: 0.828509
+Interpretation: 50.58% of variance explained
+
+Correlation: 0.711206
+
+Note: This model forces the regression line through the origin (0,0)
+This may result in a different R² value compared to the model with intercept.
+
+Example Predictions:
+Total cycles: 400 -> Predicted fusion_avg: 0.195217
+Total cycles: 450 -> Predicted fusion_avg: 0.219619
+Total cycles: 500 -> Predicted fusion_avg: 0.244021
+Total cycles: 550 -> Predicted fusion_avg: 0.268423
+Total cycles: 600 -> Predicted fusion_avg: 0.292825

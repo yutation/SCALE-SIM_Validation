@@ -50,6 +50,35 @@ def validation_convolve2d(input_A: jnp.ndarray, input_B: jnp.ndarray) -> jnp.nda
 def validation_convolve_scalesim(input_A: jnp.ndarray, input_B: jnp.ndarray) -> jnp.ndarray:
     return jax.lax.conv_general_dilated(input_A, input_B, (1, 1), "VALID", dimension_numbers=("NCHW", "OIHW", "NCHW"))
 
+def validation_vector_add(input_A: jnp.ndarray, input_B: jnp.ndarray) -> jnp.ndarray:
+    return jnp.add(input_A, input_B)
+
+def validation_vector_sub(input_A: jnp.ndarray, input_B: jnp.ndarray) -> jnp.ndarray:
+    return jnp.subtract(input_A, input_B)
+
+def validation_vector_mul(input_A: jnp.ndarray, input_B: jnp.ndarray) -> jnp.ndarray:
+    return jnp.multiply(input_A, input_B)
+
+def validation_vector_div(input_A: jnp.ndarray, input_B: jnp.ndarray) -> jnp.ndarray:
+    return jnp.divide(input_A, input_B)
+
+def validation_vector_and(input_A: jnp.ndarray, input_B: jnp.ndarray) -> jnp.ndarray:
+    return jnp.bitwise_and(input_A, input_B)
+
+def validation_vector_or(input_A: jnp.ndarray, input_B: jnp.ndarray) -> jnp.ndarray:
+    return jnp.bitwise_or(input_A, input_B)
+
+def validation_vector_shl(input_A: jnp.ndarray, input_B: jnp.ndarray) -> jnp.ndarray:
+    return jnp.left_shift(input_A, input_B)
+
+def validation_vector_shr(input_A: jnp.ndarray, input_B: jnp.ndarray) -> jnp.ndarray:
+    return jnp.right_shift(input_A, input_B)
+
+def validation_relu(input_A: jnp.ndarray) -> jnp.ndarray:
+    return jnp.maximum(input_A, 0)
+
+
+
 class ScaleSimTopologyType(Enum):
     GEMM = "gemm"
     CONV = "conv"
@@ -61,6 +90,17 @@ class KernelType(Enum):
     CONVOLVE = "convolve"
     CONVOLVE2D = "convolve2d"
     CONVOLVE_SCALESIM = "convolve_scalesim"
+    VECTOR_ADD = "vector_add"
+    VECTOR_SUB = "vector_sub"
+    VECTOR_MUL = "vector_mul"
+    VECTOR_DIV = "vector_div"
+    VECTOR_AND = "vector_and"
+    VECTOR_OR = "vector_or"
+    VECTOR_SHL = "vector_shl"
+    VECTOR_SHR = "vector_shr"
+    RELU = "relu"
+    
+
 
     def get_kernel(self) -> Callable:
         if self == KernelType.MATRIX_MULTIPLY:
@@ -73,6 +113,24 @@ class KernelType(Enum):
             return validation_convolve2d
         elif self == KernelType.CONVOLVE_SCALESIM:
             return validation_convolve_scalesim
+        elif self == KernelType.VECTOR_ADD:
+            return validation_vector_add
+        elif self == KernelType.VECTOR_SUB:
+            return validation_vector_sub
+        elif self == KernelType.VECTOR_MUL:
+            return validation_vector_mul
+        elif self == KernelType.VECTOR_DIV:
+            return validation_vector_div
+        elif self == KernelType.VECTOR_AND:
+            return validation_vector_and
+        elif self == KernelType.VECTOR_OR:
+            return validation_vector_or
+        elif self == KernelType.VECTOR_SHL:
+            return validation_vector_shl
+        elif self == KernelType.VECTOR_SHR:
+            return validation_vector_shr
+        elif self == KernelType.RELU:
+            return validation_relu
         else:
             raise ValueError(f"Unknown kernel type: {self}")
     
@@ -214,9 +272,10 @@ class ValidationPackage:
         self.output = self.jit_kernel(*self.inputs)
         return self.output
 
-    def profile_validation(self):
+    def profile_validation(self, repeat: int = 1):
         with jax.profiler.trace(self.profile_folder):
-            self.run_validation().block_until_ready()
+            for _ in range(repeat):
+                self.run_validation().block_until_ready()
     
     def parse_profile_trace(self):
         if not os.path.exists(os.path.join(self.profile_folder, "trace_events.json")):
@@ -271,7 +330,21 @@ class ValidationPackage:
             df_generator.add_data("dur(us)", [event["dur"]])
         return df_generator
 
+    # -----------------------------
+    # Additional filtered events data extraction
+    def get_filtered_events_dataframe_generator_for_copy_done(self):
+        df_generator = DataFrameGenerator()
+        for event in self.profile_filtered_events:
+            if event["name"] == "copy-done":
+                df_generator.add_single_value("kernel_name", self.config.name)
+                df_generator.add_data("event_name", [event["name"]])
+                df_generator.add_data("dur(us)", [event["dur"]])
+                df_generator.add_data("bytes_accessed", [event["args"]["bytes_accessed"]])
+                df_generator.add_data("raw_bytes_accessed", [event["args"]["raw_bytes_accessed"]])
+                df_generator.add_data("shape_with_layout", [event["args"]["shape_with_layout"]])
+        return df_generator
 
+    # -----------------------------
 
     def get_output(self) -> jnp.ndarray:
         if self.output is None:
@@ -292,10 +365,10 @@ class ValidationManager:
     def clear_packages(self):
         self.packages = []
 
-    def profile_all_packages(self):
+    def profile_all_packages(self, repeat: int = 1):
         for package in self.packages:
             package.setup_validation()
-            package.profile_validation()
+            package.profile_validation(repeat = repeat)
             # package.parse_profile_trace()
 
     def parse_all_packages(self):
@@ -332,6 +405,18 @@ class ValidationManager:
         if save_to_file:
             df_generator.to_dataframe().to_csv(os.path.join(self.profile_dir, "filtered_events.csv"), index=False)
         return df_generator.to_dataframe()
+
+    # -----------------------------
+    # Custom data extraction
+    def get_filtered_events_dataframe_for_copy_done(self, save_to_file: bool = True):
+        df_generator = DataFrameGenerator()
+        for package in self.packages:
+            df_generator.merge(package.get_filtered_events_dataframe_generator_for_copy_done())
+        if save_to_file:
+            df_generator.to_dataframe().to_csv(os.path.join(self.profile_dir, "filtered_events_copy_done.csv"), index=False)
+        return df_generator.to_dataframe()
+
+    # -----------------------------
 
     def write_scale_sim_topology_csv(self):
         """Write SCALE-Sim topology CSV files, separating GEMM and CONV configurations."""
@@ -372,40 +457,4 @@ class ValidationManager:
         
         if not gemm_entries and not conv_entries:
             print("No topology entries found to write.")
-
-
-    
-
-
-
-
-
-
-# Example function
-
-
-def generate_dot_product_config(name: str, mnk_value: int) -> ValidationConfig:
-    return ValidationConfig(
-        name=name,
-        kernel_type=KernelType.DOT_PRODUCT,
-        inputs=[((mnk_value, ), jnp.float16),
-                ((mnk_value, ), jnp.float16)]
-    )
-
-def generate_convolve2d_config(name: str, mnk_value: int) -> ValidationConfig:
-    return ValidationConfig(
-        name=name,
-        kernel_type=KernelType.CONVOLVE2D,
-        inputs=[((mnk_value, mnk_value), jnp.float16),
-                ((3, 3), jnp.float16),]
-    )
-
-def generate_conv_nchw_config(name: str, N: int, C: int, H: int, W: int, K: int, R: int, S: int) -> ValidationConfig:
-    """Generate convolution config with NCHW input format and OIHW filter format."""
-    return ValidationConfig(
-        name=name,
-        kernel_type=KernelType.CONVOLVE_SCALESIM,
-        inputs=[((N, C, H, W), jnp.float16),
-                ((K, C, R, S), jnp.float16)]
-    )
 
