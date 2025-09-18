@@ -9,6 +9,9 @@ from typing import Optional
 import os
 from utils import DataFrameGenerator
 
+from kernel_functions import KernelType, ScaleSimTopologyType
+
+
 # Global variable for trace directory
 _TRACE_DIR = "./trace"
 
@@ -34,131 +37,26 @@ def setup_trace_dir(trace_dir: Optional[str] = None) -> str:
         os.makedirs(trace_dir)
     return trace_dir
 
-# Kernel functions
-def validation_matrix_multiply(input_A: jnp.ndarray, input_B: jnp.ndarray) -> jnp.ndarray:
-    return jnp.matmul(input_A, input_B)
-
-def validation_dot_product(input_A: jnp.ndarray, input_B: jnp.ndarray) -> jnp.ndarray:
-    return jnp.dot(input_A, input_B)
-
-def validation_convolve(input_A: jnp.ndarray, input_B: jnp.ndarray) -> jnp.ndarray:
-    return jnp.convolve(input_A, input_B)
-
-def validation_convolve2d(input_A: jnp.ndarray, input_B: jnp.ndarray) -> jnp.ndarray:
-    return jax.scipy.signal.convolve2d(input_A, input_B)
-
-def validation_convolve_scalesim(input_A: jnp.ndarray, input_B: jnp.ndarray) -> jnp.ndarray:
-    return jax.lax.conv_general_dilated(input_A, input_B, (1, 1), "VALID", dimension_numbers=("NCHW", "OIHW", "NCHW"))
-
-def validation_vector_add(input_A: jnp.ndarray, input_B: jnp.ndarray) -> jnp.ndarray:
-    return jnp.add(input_A, input_B)
-
-def validation_vector_sub(input_A: jnp.ndarray, input_B: jnp.ndarray) -> jnp.ndarray:
-    return jnp.subtract(input_A, input_B)
-
-def validation_vector_mul(input_A: jnp.ndarray, input_B: jnp.ndarray) -> jnp.ndarray:
-    return jnp.multiply(input_A, input_B)
-
-def validation_vector_div(input_A: jnp.ndarray, input_B: jnp.ndarray) -> jnp.ndarray:
-    return jnp.divide(input_A, input_B)
-
-def validation_vector_and(input_A: jnp.ndarray, input_B: jnp.ndarray) -> jnp.ndarray:
-    return jnp.bitwise_and(input_A, input_B)
-
-def validation_vector_or(input_A: jnp.ndarray, input_B: jnp.ndarray) -> jnp.ndarray:
-    return jnp.bitwise_or(input_A, input_B)
-
-def validation_vector_shl(input_A: jnp.ndarray, input_B: jnp.ndarray) -> jnp.ndarray:
-    return jnp.left_shift(input_A, input_B)
-
-def validation_vector_shr(input_A: jnp.ndarray, input_B: jnp.ndarray) -> jnp.ndarray:
-    return jnp.right_shift(input_A, input_B)
-
-def validation_relu(input_A: jnp.ndarray) -> jnp.ndarray:
-    return jnp.maximum(input_A, 0)
-
-
-
-class ScaleSimTopologyType(Enum):
-    GEMM = "gemm"
-    CONV = "conv"
-
-
-class KernelType(Enum):
-    MATRIX_MULTIPLY = "matrix_multiply"
-    DOT_PRODUCT = "dot_product"
-    CONVOLVE = "convolve"
-    CONVOLVE2D = "convolve2d"
-    CONVOLVE_SCALESIM = "convolve_scalesim"
-    VECTOR_ADD = "vector_add"
-    VECTOR_SUB = "vector_sub"
-    VECTOR_MUL = "vector_mul"
-    VECTOR_DIV = "vector_div"
-    VECTOR_AND = "vector_and"
-    VECTOR_OR = "vector_or"
-    VECTOR_SHL = "vector_shl"
-    VECTOR_SHR = "vector_shr"
-    RELU = "relu"
-    
-
-
-    def get_kernel(self) -> Callable:
-        if self == KernelType.MATRIX_MULTIPLY:
-            return validation_matrix_multiply
-        elif self == KernelType.DOT_PRODUCT:
-            return validation_dot_product
-        elif self == KernelType.CONVOLVE:
-            return validation_convolve
-        elif self == KernelType.CONVOLVE2D:
-            return validation_convolve2d
-        elif self == KernelType.CONVOLVE_SCALESIM:
-            return validation_convolve_scalesim
-        elif self == KernelType.VECTOR_ADD:
-            return validation_vector_add
-        elif self == KernelType.VECTOR_SUB:
-            return validation_vector_sub
-        elif self == KernelType.VECTOR_MUL:
-            return validation_vector_mul
-        elif self == KernelType.VECTOR_DIV:
-            return validation_vector_div
-        elif self == KernelType.VECTOR_AND:
-            return validation_vector_and
-        elif self == KernelType.VECTOR_OR:
-            return validation_vector_or
-        elif self == KernelType.VECTOR_SHL:
-            return validation_vector_shl
-        elif self == KernelType.VECTOR_SHR:
-            return validation_vector_shr
-        elif self == KernelType.RELU:
-            return validation_relu
-        else:
-            raise ValueError(f"Unknown kernel type: {self}")
-    
-    def get_scale_sim_topology_type(self) -> ScaleSimTopologyType:
-        if self == KernelType.MATRIX_MULTIPLY or self == KernelType.DOT_PRODUCT:
-            return ScaleSimTopologyType.GEMM
-        elif self == KernelType.CONVOLVE or self == KernelType.CONVOLVE2D or self == KernelType.CONVOLVE_SCALESIM:
-            return ScaleSimTopologyType.CONV
-        else:
-            raise ValueError(f"Unknown kernel type: {self}")
-
 
 class ValidationConfig:
     def __init__(self, name: str,
         kernel_type: KernelType,
         inputs: List[Tuple[Tuple[int, ...], jnp.dtype]],
+        kernel_params: Optional[Dict] = None,
     ):
         """
-        Initialize ValidationConfig with flexible inputs.
+        Initialize ValidationConfig with flexible inputs and kernel parameters.
         
         Args:
             name: Configuration name
             kernel_type: Type of kernel to use
-            inputs: List of (shape, dtype) pairs for each input
+            inputs: List of (shape, dtype) pairs for each input tensor
+            kernel_params: Optional dictionary of additional kernel parameters
         """
         self.name = name
         self.kernel_type = kernel_type
         self.inputs = inputs
+        self.kernel_params = kernel_params or {}
         
         
     def get_input_shapes(self) -> List[Tuple[int, ...]]:
@@ -174,10 +72,18 @@ class ValidationConfig:
         return len(self.inputs)
 
     def get_json_dict(self) -> Dict:
+        # Convert dtypes to string representation for JSON serialization
+        serializable_inputs = []
+        for shape, dtype in self.inputs:
+            # Extract the dtype name (e.g., jnp.float32 -> "float32")
+            dtype_name = dtype.__name__ if hasattr(dtype, '__name__') else str(dtype)
+            serializable_inputs.append((shape, dtype_name))
+        
         return {
             "name": self.name,
             "kernel_type": self.kernel_type.value,
-            "inputs": self.inputs
+            "inputs": serializable_inputs,
+            "kernel_params": self.kernel_params
         }
 
     def get_scale_sim_topology_entry(self):
@@ -262,7 +168,19 @@ class ValidationPackage:
         input_structs = []
         for shape, dtype in self.config.inputs:
             input_structs.append(jax.ShapeDtypeStruct(shape, dtype))
-        self.jit_kernel = jax.jit(self.config.kernel_type.get_kernel()).lower(*input_structs).compile()
+        
+        # Get the kernel function and create a wrapper that includes parameters
+        kernel_func = self.config.kernel_type.get_kernel()
+        
+        if self.config.kernel_params:
+            # Create a wrapper function that includes the kernel parameters
+            def kernel_with_params(*tensor_inputs):
+                return kernel_func(*tensor_inputs, **self.config.kernel_params)
+            self.jit_kernel = jax.jit(kernel_with_params).lower(*input_structs).compile()
+        else:
+            # No parameters, use kernel function directly
+            self.jit_kernel = jax.jit(kernel_func).lower(*input_structs).compile()
+        
         for shape, dtype in self.config.inputs:
             self.inputs.append(jax.random.normal(jax.random.key(0), shape, dtype))
 
@@ -273,6 +191,7 @@ class ValidationPackage:
         return self.output
 
     def profile_validation(self, repeat: int = 1):
+        print(f"Profiling {self.config.name}")
         with jax.profiler.trace(self.profile_folder):
             for _ in range(repeat):
                 self.run_validation().block_until_ready()
@@ -304,7 +223,7 @@ class ValidationPackage:
             if "pid" not in event.keys() or event['pid'] != 8:
                 continue
 
-            if "name" in event.keys() and kernel_function_name in event['name'] and "args" in event.keys():
+            if "name" in event.keys() and (kernel_function_name in event['name'] or "jit_kernel" in event['name']) and "args" in event.keys():
                 filtered_events.append(event)
             elif "args" in event.keys() and "long_name" in event['args'].keys():
                 filtered_events.append(event)
@@ -320,7 +239,7 @@ class ValidationPackage:
         df_generator = DataFrameGenerator()
         for event in self.profile_filtered_events:
             kernel_function_name = self.config.kernel_type.get_kernel().__name__
-            if kernel_function_name in event['name']:
+            if kernel_function_name in event['name'] or "jit_kernel" in event['name']:
                 event_type = "main"
             else:
                 event_type = "sub"
@@ -387,14 +306,35 @@ class ValidationManager:
                 # Convert kernel_type string back to KernelType
                 kernel_type = KernelType(package["config"]["kernel_type"])
                 # Convert input shapes from lists to tuples, and dtypes from string to jnp.dtype
-                inputs = [
-                    (tuple(shape), getattr(jnp, dtype) if isinstance(dtype, str) else dtype)
-                    for shape, dtype in package["config"]["inputs"]
-                ]
+                inputs = []
+                for shape, dtype in package["config"]["inputs"]:
+                    if isinstance(dtype, str):
+                        # Parse dtype string (e.g., "float32" -> jnp.float32)
+                        try:
+                            dtype_obj = getattr(jnp, dtype)
+                        except AttributeError:
+                            # Fallback for common dtypes
+                            dtype_mapping = {
+                                'float32': jnp.float32,
+                                'float64': jnp.float64,
+                                'int32': jnp.int32,
+                                'int64': jnp.int64,
+                                'bool': jnp.bool_,
+                                'complex64': jnp.complex64,
+                                'complex128': jnp.complex128
+                            }
+                            dtype_obj = dtype_mapping.get(dtype, jnp.float32)
+                    else:
+                        dtype_obj = dtype
+                    inputs.append((tuple(shape), dtype_obj))
+                # Get kernel parameters if they exist
+                kernel_params = package["config"].get("kernel_params", {})
+                
                 config = ValidationConfig(
                     name=package["config"]["name"],
                     kernel_type=kernel_type,
-                    inputs=inputs
+                    inputs=inputs,
+                    kernel_params=kernel_params
                 )
                 self.packages.append(ValidationPackage(config))
 

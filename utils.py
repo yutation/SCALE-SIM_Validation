@@ -121,7 +121,9 @@ class DataFrameGenerator:
             return
         # Check if the other DataFrameGenerator has the same column names
         if not set(self.get_column_names()) == set(other_dataframe_generator.get_column_names()):
-            raise ValueError("The two DataFrameGenerators have different column names")
+            print("The two DataFrameGenerators have different column names")
+            return
+            # raise ValueError("The two DataFrameGenerators have different column names")
         # Merge the data
         for column_name in other_dataframe_generator.get_column_names():
             self.add_data(column_name, other_dataframe_generator.data[column_name])

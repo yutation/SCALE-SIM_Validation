@@ -2,6 +2,7 @@ import jax
 import jax.numpy as jnp
 import flexible_validation as fv
 import kernel_configs as kc
+import kernel_functions as kf
 
 
 
@@ -39,12 +40,17 @@ for M in range(8, 256, 8):
             shape_list.append((M, N, K))
 print(len(shape_list))
 
-config_list = []
-for shape in shape_list:
-    config_name = f"relu_{shape}"
-    config_list.append(kc.generate_relu_config(config_name, shape))
+activation_type_list = [kf.KernelType.RELU, kf.KernelType.SIGMOID, kf.KernelType.TANH, kf.KernelType.LEAKY_RELU, kf.KernelType.ELU, kf.KernelType.SELU, kf.KernelType.PARAMETRIC_RELU, kf.KernelType.BINARY_STEP, kf.KernelType.LINEAR]
 
-manager = fv.ValidationManager(profile_dir="./trace_relu_repeat20")
+config_list = []
+for activation_type in activation_type_list:
+    activation_type_name = activation_type.value
+    for shape in shape_list:
+        shape_str = str(shape).replace(" ", "")
+        config_name = f"{activation_type_name}_{shape_str}"
+        config_list.append(kc.generate_activation_config(config_name, activation_type, shape))
+
+manager = fv.ValidationManager(profile_dir="./traces/trace_activation_repeat20")
 
 for config in config_list:
     manager.add_config(config)
