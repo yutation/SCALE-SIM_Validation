@@ -1,0 +1,10 @@
+function_name,kernel_count,avg_duration_mean,avg_duration_std,avg_duration_min,avg_duration_max,output_file
+sigmoid,194,1.0709702835051547,0.13564560426574349,0.879062,1.506866,function_splits/sigmoid_kernel_stats.csv
+selu,194,1.0365707061855671,0.11222611924770576,0.875344,1.377915,function_splits/selu_kernel_stats.csv
+elu,194,1.0315538659793813,0.11155599432331645,0.864902,1.38062,function_splits/elu_kernel_stats.csv
+parametric,194,1.0266756649484534,0.11231277459574636,0.857085,1.337911,function_splits/parametric_kernel_stats.csv
+leaky,194,1.0216498659793813,0.1093264888669328,0.861428,1.367286,function_splits/leaky_kernel_stats.csv
+linear,194,1.0208100412371135,0.10833040447845015,0.858344,1.335473,function_splits/linear_kernel_stats.csv
+tanh,194,1.0195444948453607,0.10652671578588592,0.85821,1.345415,function_splits/tanh_kernel_stats.csv
+relu,194,1.0186982835051546,0.1069418923448498,0.867062,1.335772,function_splits/relu_kernel_stats.csv
+binary,194,0.9843664896907217,0.08559939979083794,0.862076,1.233442,function_splits/binary_kernel_stats.csv

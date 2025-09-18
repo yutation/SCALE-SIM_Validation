@@ -1,0 +1,19 @@
+COMPREHENSIVE LINEAR REGRESSION RESULTS
+==================================================
+Input file: kernel_report_updated.csv
+Linear Function: fusion_avg = 0.002762 * total_cycles + -0.059902
+Slope: 0.002762
+Intercept: -0.059902
+R-squared: 0.789323
+MSE: 0.001404
+RMSE: 0.037476
+Interpretation: 78.93% of variance explained
+
+Correlation: 0.888438
+
+Example Predictions:
+Total cycles: 400 -> Predicted fusion_avg: 1.044999
+Total cycles: 450 -> Predicted fusion_avg: 1.183112
+Total cycles: 500 -> Predicted fusion_avg: 1.321224
+Total cycles: 550 -> Predicted fusion_avg: 1.459337
+Total cycles: 600 -> Predicted fusion_avg: 1.597450
