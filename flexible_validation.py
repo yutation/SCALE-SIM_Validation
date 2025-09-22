@@ -263,6 +263,35 @@ class ValidationPackage:
                 df_generator.add_data("shape_with_layout", [event["args"]["shape_with_layout"]])
         return df_generator
 
+    def get_filtered_events_dataframe_generator_for_avg_fusion_duration(self):
+        from collections import defaultdict
+        import numpy as np
+
+        # Group durations by event name
+        fusion_durations = defaultdict(list)
+        for event in self.profile_filtered_events:
+            kernel_function_name = self.config.kernel_type.get_kernel().__name__
+            if kernel_function_name in event['name'] or "jit_kernel" in event['name'] or "copy" in event['name']:
+                continue
+            else:
+                fusion_durations[event["name"]].append(event["dur"])
+
+        event_df_generator = DataFrameGenerator()
+        for event_name, durations in fusion_durations.items():
+            avg_duration = float(np.mean(durations))
+            event_df_generator.add_single_value("kernel_name", self.config.name)
+            event_df_generator.add_data("event_name", [event_name])
+            event_df_generator.add_data("dur(us)", [avg_duration])
+
+        # Sum all event durations, one row df with two columns: kernel_name and dur
+        import numpy as np
+        durations = event_df_generator.data.get("dur(us)", [])
+        total_duration = float(np.sum(durations)) if durations else 0.0
+        df_generator = DataFrameGenerator()
+        df_generator.add_single_value("kernel_name", self.config.name)
+        df_generator.add_single_value("dur(us)", total_duration)
+        return df_generator
+
     # -----------------------------
 
     def get_output(self) -> jnp.ndarray:
@@ -348,6 +377,7 @@ class ValidationManager:
 
     # -----------------------------
     # Custom data extraction
+
     def get_filtered_events_dataframe_for_copy_done(self, save_to_file: bool = True):
         df_generator = DataFrameGenerator()
         for package in self.packages:
@@ -356,7 +386,16 @@ class ValidationManager:
             df_generator.to_dataframe().to_csv(os.path.join(self.profile_dir, "filtered_events_copy_done.csv"), index=False)
         return df_generator.to_dataframe()
 
+    def get_filtered_events_dataframe_for_avg_fusion_duration(self, save_to_file: bool = True):
+        df_generator = DataFrameGenerator()
+        for package in self.packages:
+            df_generator.merge(package.get_filtered_events_dataframe_generator_for_avg_fusion_duration())
+        if save_to_file:
+            df_generator.to_dataframe().to_csv(os.path.join(self.profile_dir, "filtered_events_avg_fusion.csv"), index=False)
+        return df_generator.to_dataframe()
+
     # -----------------------------
+
 
     def write_scale_sim_topology_csv(self):
         """Write SCALE-Sim topology CSV files, separating GEMM and CONV configurations."""
