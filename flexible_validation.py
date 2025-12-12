@@ -231,7 +231,7 @@ class ValidationPackage:
         filtered_events = []
         kernel_function_name = self.config.kernel_type.get_kernel().__name__
         for event in trace_events:
-            if "pid" not in event.keys() or event['pid'] != 8:
+            if "pid" not in event.keys() or event['pid'] != 3:
                 continue
 
             if "name" in event.keys() and (kernel_function_name in event['name'] or "jit_kernel" in event['name']) and "args" in event.keys():
