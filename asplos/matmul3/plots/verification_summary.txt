@@ -1,0 +1,54 @@
+================================================================================
+SCALE-Sim TPU Latency Verification Summary
+================================================================================
+
+Overall Statistics:
+----------------------------------------
+Total GEMM kernels evaluated: 100
+Mean Absolute Percentage Error (MAPE): 31.98%
+Median Error: 1.48%
+Standard Deviation: 92.08%
+Min Error: -61.11%
+Max Error: 776.86%
+
+Accuracy Breakdown:
+----------------------------------------
+Within ±10% error: 48/100 (48.0%)
+Within ±20% error: 69/100 (69.0%)
+Within ±30% error: 78/100 (78.0%)
+
+Bias Analysis:
+----------------------------------------
+Overestimations: 51/100 (51.0%)
+Underestimations: 49/100 (49.0%)
+Mean signed error: 11.38%
+
+Error by Problem Size:
+----------------------------------------
+Small (≤6052766): MAPE = 8.53%
+Medium (6052766-2037295165): MAPE = 66.48%
+Large (≥2037295165): MAPE = 19.88%
+
+Top 5 Worst Predictions (by absolute error):
+----------------------------------------
+matmul_linear_62: [(1024, 128), (128, 245)]
+  Predicted: 30.29 μs, Actual: 3.45 μs
+  Error: 776.86%
+
+matmul_linear_58: [(897, 137), (137, 1024)]
+  Predicted: 33.86 μs, Actual: 9.15 μs
+  Error: 270.10%
+
+matmul_linear_36: [(250, 1024), (1024, 762)]
+  Predicted: 33.42 μs, Actual: 9.31 μs
+  Error: 259.12%
+
+matmul_linear_41: [(256, 1024), (1024, 903)]
+  Predicted: 33.88 μs, Actual: 11.23 μs
+  Error: 201.70%
+
+matmul_linear_50: [(1024, 890), (890, 380)]
+  Predicted: 35.69 μs, Actual: 13.54 μs
+  Error: 163.66%
+
+================================================================================

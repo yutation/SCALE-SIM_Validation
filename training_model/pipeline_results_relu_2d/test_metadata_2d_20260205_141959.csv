@@ -1,0 +1,2 @@
+storage_file,operator_name,common_operator_dimensions,data_precision,iterations,random_seed,software_version,date,script_version,repo_version,comment
+pipeline_results_relu_2d/test_profiling_2d_20260205_141959.csv,relu,,FLOAT16,5,2999,jax=0.6.0,2026-02-05_14-20-04,v0.0.0,v0.0.1,2D test_shapes n=100 max_numel=16777216 seed=2999

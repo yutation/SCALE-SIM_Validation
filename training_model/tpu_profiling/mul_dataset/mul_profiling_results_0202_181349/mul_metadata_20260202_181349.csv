@@ -1,0 +1,2 @@
+storage_file,operator_name,common_operator_dimensions,data_precision,iterations,random_seed,software_version,date,script_version,repo_version,comment
+./mul_dataset/mul_profiling_results_0202_181349/mul_dataset_20260202_181349.csv,mul,,FP16,5,0,jax=0.6.0,2026-02-02_18-13-49,v0.0.0,v0.0.1,elementwise_mul_dataset n=10 max_numel=1048576 seed=0 

@@ -250,3 +250,40 @@ class ModelVerification:
         merged_df.to_csv(f"{self.validation_manager.profile_dir}/merged_verification_results.csv", index=False)
         
         return merged_df
+
+    def verify_matmul_sim(self):
+        self.prediction_manager.matmul_sim_predict()
+        self.validation_manager.profile_all_packages(repeat = 10)
+        self.validation_manager.parse_all_packages()
+        prediction_df = self.prediction_manager.get_dataframe()
+        validation_df = self.validation_manager.get_filtered_events_dataframe_for_avg_fusion_duration(save_to_file=True)
+        
+        # Merge the two dataframes by combining columns (rows kept same)
+        merged_df = pd.concat([prediction_df, validation_df], axis=1)
+        
+        # Rename columns for clarity
+        merged_df = merged_df.rename(columns={
+            'operation_type': 'Operation_Type',
+            'operation': 'Operation',
+            'shapes': 'Input_Shapes',
+            'latency_us': 'Predicted_Latency_us',
+            'kernel_name': 'Kernel_Name',
+            'dur(us)': 'Actual_Duration_us'
+        })
+        # Calculate error percentage: ((predicted - actual) / actual) * 100
+        merged_df['Error_Percentage'] = ((merged_df['Predicted_Latency_us'] - merged_df['Actual_Duration_us']) / merged_df['Actual_Duration_us']) * 100
+        
+        # Calculate RMSE (Root Mean Square Error)
+        rmse = np.sqrt(np.mean((merged_df['Predicted_Latency_us'] - merged_df['Actual_Duration_us']) ** 2))
+        # Calculate MAPE (Mean Absolute Percentage Error)
+        mape = np.mean(np.abs(merged_df['Error_Percentage']))
+        # Print the metrics
+        print(f"\n=== Model Verification Metrics ===")
+        print(f"RMSE (Root Mean Square Error): {rmse:.2f} microseconds")
+        print(f"MAPE (Mean Absolute Percentage Error): {mape:.2f}%")
+        print(f"Number of test cases: {len(merged_df)}")
+        
+        # Save the merged dataframe
+        merged_df.to_csv(f"{self.validation_manager.profile_dir}/merged_verification_results.csv", index=False)
+        
+        return merged_df

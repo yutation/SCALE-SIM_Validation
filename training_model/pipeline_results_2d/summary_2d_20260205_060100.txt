@@ -1,0 +1,25 @@
+======================================================================
+LATENCY PREDICTION PIPELINE SUMMARY (2D) - ADD
+======================================================================
+
+Timestamp: 20260205_060100
+Training CSV: ./model/add_dataset_2d.csv
+Model: pipeline_results_2d/add_model_2d_20260205_060100.pkl
+Test shapes: 100
+Seed: 1999
+
+Prediction Performance:
+  Number of test cases: 100
+  Mean Absolute Error (MAE):     2.076019
+  Mean Abs Percentage Error:     32.35%
+  Median Abs Percentage Error:   2.55%
+  Max Absolute Error:            23.632184
+  Max Relative Error:            334.43%
+  R² Score:                      0.9980
+
+Error Distribution (Relative %):
+  50th percentile: 2.55%
+  75th percentile: 10.48%
+  90th percentile: 130.08%
+  95th percentile: 187.53%
+  99th percentile: 286.17%

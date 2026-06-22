@@ -1,0 +1,25 @@
+======================================================================
+LATENCY PREDICTION PIPELINE SUMMARY - MUL
+======================================================================
+
+Timestamp: 20260202_191526
+Training CSV: model/mul_dataset_20260202_181618.csv
+Model: pipeline_results_mul/mul_model_20260202_191526.pkl
+Test shapes: 100
+Seed: 42
+
+Prediction Performance:
+  Number of test cases: 100
+  Mean Absolute Error (MAE):     0.302860
+  Mean Abs Percentage Error:     4.94%
+  Median Abs Percentage Error:   2.06%
+  Max Absolute Error:            8.399022
+  Max Relative Error:            42.67%
+  R² Score:                      0.9765
+
+Error Distribution (Relative %):
+  50th percentile: 2.06%
+  75th percentile: 5.18%
+  90th percentile: 14.52%
+  95th percentile: 16.60%
+  99th percentile: 39.04%

@@ -115,3 +115,35 @@ def generate_broadcast_to_dim_config(name: str, input_shape: Tuple[int, ...], sh
         inputs=[(input_shape, jnp.float16)],
         kernel_params={"shape": shape, "broadcast_dimensions": broadcast_dimensions}
     )
+
+def generate_product_reduce_config(name: str, shape: Tuple[int, ...], axis: Tuple[int, ...]) -> fv.ValidationConfig:
+    return fv.ValidationConfig(
+        name=name,
+        kernel_type=kf.KernelType.PRODUCT_REDUCE,
+        inputs=[(shape, jnp.float16)],
+        kernel_params={"axis": axis}
+    )
+
+def generate_sum_reduce_config(name: str, shape: Tuple[int, ...], axis: Tuple[int, ...]) -> fv.ValidationConfig:
+    return fv.ValidationConfig(
+        name=name,
+        kernel_type=kf.KernelType.SUM_REDUCE,
+        inputs=[(shape, jnp.float16)],
+        kernel_params={"axis": axis}
+    )
+
+def generate_reshape_config(name: str, shape: Tuple[int, ...], newshape: Tuple[int, ...]) -> fv.ValidationConfig:
+    return fv.ValidationConfig(
+        name=name,
+        kernel_type=kf.KernelType.RESHAPE,
+        inputs=[(shape, jnp.float16)],
+        kernel_params={"newshape": newshape}
+    )
+
+def generate_transpose_config(name: str, shape: Tuple[int, ...], perm: Tuple[int, ...]) -> fv.ValidationConfig:
+    return fv.ValidationConfig(
+        name=name,
+        kernel_type=kf.KernelType.TRANSPOSE,
+        inputs=[(shape, jnp.float16)],
+        kernel_params={"perm": perm}
+    )

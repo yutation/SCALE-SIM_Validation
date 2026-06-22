@@ -26,6 +26,18 @@ class PredictionManager:
             self.df_generator.add_data("latency_us", [latency_microseconds])
         return self.df_generator
 
+    def matmul_sim_predict(self):
+        for config in self.config_list:
+            operation_type, operation, shapes, operation_params = config
+            latency = matmul_sim_prediction(operation_type, operation, shapes, operation_params)
+            # Convert latency from milliseconds to microseconds and clean enum values
+            latency_microseconds = latency  # Convert ms to μs
+            self.df_generator.add_data("operation_type", [operation_type.value])
+            self.df_generator.add_data("operation", [operation.value])
+            self.df_generator.add_data("shapes", [shapes])
+            self.df_generator.add_data("latency_us", [latency_microseconds])
+        return self.df_generator
+
     def dump_csv(self, file_path: str):
         self.df_generator.to_dataframe().to_csv(file_path, index=False)
 
@@ -51,6 +63,17 @@ def latency_prediction(operation_type: oc.OperationType, operation: oc.Operation
     else:
         raise ValueError(f"Unsupported operation type: {operation_type}")
 
+def matmul_sim_prediction(operation_type: oc.OperationType, operation: oc.OperationBase,  shapes: List[Tuple[int, ...]],  operation_params: Dict[str, Any]) -> float:
+    assert operation_type == oc.OperationType.MATMUL
+    assert operation in oc.OperationMatmul.__members__.values()
+    assert len(shapes) == 2
+    lhs_shape = shapes[0]
+    rhs_shape = shapes[1]
+    assert len(lhs_shape) == 2
+    assert len(rhs_shape) == 2
+    assert lhs_shape[1] == rhs_shape[0]
+    m, n, k = lhs_shape[0], rhs_shape[1], rhs_shape[0]
+    return lm.matmul_scale_sim_model(m, n, k)
 
 def latency_prediction_elementwise(operation_type: oc.OperationType, operation: oc.OperationBase,  shapes: List[Tuple[int, ...]],  operation_params: Dict[str, Any]) -> float:
     assert operation_type == oc.OperationType.ELEMENTWISE
@@ -270,7 +293,7 @@ def latency_prediction_matmul(operation_type: oc.OperationType, operation: oc.Op
     assert len(rhs_shape) == 2
     assert lhs_shape[1] == rhs_shape[0]
     m, n, k = lhs_shape[0], rhs_shape[1], rhs_shape[0]
-    return lm.linear_model_matmul(m, n, k)
+    return lm.linear_model_matmul_0(m, n, k)
 
 
 

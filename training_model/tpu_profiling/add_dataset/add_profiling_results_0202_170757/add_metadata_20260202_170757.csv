@@ -1,0 +1,2 @@
+storage_file,operator_name,common_operator_dimensions,data_precision,iterations,random_seed,software_version,date,script_version,repo_version,comment
+./add_dataset/add_profiling_results_0202_170757/add_dataset_20260202_170757.csv,add,,FP16,5,0,jax=0.6.0,2026-02-02_17-07-57,v0.0.0,v0.0.1,elementwise_add_dataset n=100 max_numel=1048576 seed=0 

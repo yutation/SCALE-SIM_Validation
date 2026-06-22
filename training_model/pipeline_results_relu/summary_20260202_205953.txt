@@ -1,0 +1,25 @@
+======================================================================
+LATENCY PREDICTION PIPELINE SUMMARY - RELU
+======================================================================
+
+Timestamp: 20260202_205953
+Training CSV: model/relu_dataset_20260202_193859.csv
+Model: pipeline_results_relu/relu_model_20260202_205953.pkl
+Test shapes: 100
+Seed: 42
+
+Prediction Performance:
+  Number of test cases: 100
+  Mean Absolute Error (MAE):     0.134507
+  Mean Abs Percentage Error:     3.67%
+  Median Abs Percentage Error:   1.78%
+  Max Absolute Error:            4.946978
+  Max Relative Error:            38.36%
+  R² Score:                      0.9875
+
+Error Distribution (Relative %):
+  50th percentile: 1.78%
+  75th percentile: 3.39%
+  90th percentile: 8.14%
+  95th percentile: 14.15%
+  99th percentile: 32.76%

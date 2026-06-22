@@ -139,7 +139,7 @@ def matmul_scale_sim_model(m: int, n: int, k: int, systolic_array_size: int = 12
     v2 = (2*systolic_array_size + systolic_array_size + m - 2) * math.ceil(n / systolic_array_size) * math.ceil(k / systolic_array_size)
     return min(v1, v2)
 
-def linear_model_matmul(m: int, n: int, k: int) -> int:
+def linear_model_matmul_0(m: int, n: int, k: int) -> int:
     cycles = matmul_scale_sim_model(m, n, k)
 
     if m < 128 and n < 128 and k < 128:
@@ -148,6 +148,14 @@ def linear_model_matmul(m: int, n: int, k: int) -> int:
         return 0.00036 * cycles + 0.780070
     else:
         return 0.00020227 * cycles + 29.721747
+
+def linear_model_matmul(m: int, n: int, k: int) -> int:
+    cycles = matmul_scale_sim_model(m, n, k)
+
+    if m < 128 and n < 128 and k < 128:
+        return 0.002762 * cycles + 0.059902
+    else:
+        return 2**(-6.802) * cycles**(0.725)
 
     
 

@@ -208,3 +208,11 @@ __marimo__/
 
 
 traces/
+
+# Raw profiling traces (kept only as aggregated .csv) — see repo cleanup
+**/trace_events.json
+**/filtered_events.json
+*.pb
+*.xplane.pb
+*.trace.json.gz
+**/*_dataset/**/*.gz

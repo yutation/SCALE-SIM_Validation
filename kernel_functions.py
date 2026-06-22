@@ -421,6 +421,19 @@ def validation_broadcast_to_dim(input_A: jnp.ndarray, shape: Tuple[int, ...], br
     return jax.lax.broadcast_in_dim(input_A, shape=shape, broadcast_dimensions=broadcast_dimensions)
 
 
+def validation_product_reduce(input_A: jnp.ndarray, axis: Tuple[int, ...]) -> jnp.ndarray:
+    return jax.numpy.prod(input_A, axis=axis)
+
+def validation_sum_reduce(input_A: jnp.ndarray, axis: Tuple[int, ...]) -> jnp.ndarray:
+    return jax.numpy.sum(input_A, axis=axis)
+
+def validation_reshape(input_A: jnp.ndarray, shape: Tuple[int, ...]) -> jnp.ndarray:
+    return jax.numpy.reshape(input_A, shape)
+
+def validation_transpose(input_A: jnp.ndarray, perm: Tuple[int, ...]) -> jnp.ndarray:
+    return jax.numpy.transpose(input_A, perm)
+
+
 
 class ScaleSimTopologyType(Enum):
     GEMM = "gemm"
@@ -461,6 +474,11 @@ class KernelType(Enum):
     MAX_POOLING = "max_pooling"
     AVG_POOLING = "avg_pooling"
     BROADCAST_TO_DIM = "broadcast_to_dim"
+    PRODUCT_REDUCE = "product_reduce"
+    SUM_REDUCE = "sum_reduce"
+    RESHAPE = "reshape"
+    TRANSPOSE = "transpose"
+
 
 
     def get_kernel(self) -> Callable:
@@ -530,6 +548,14 @@ class KernelType(Enum):
             return validation_avg_pooling
         elif self == KernelType.BROADCAST_TO_DIM:
             return validation_broadcast_to_dim
+        elif self == KernelType.PRODUCT_REDUCE:
+            return validation_product_reduce
+        elif self == KernelType.SUM_REDUCE:
+            return validation_sum_reduce
+        elif self == KernelType.RESHAPE:
+            return validation_reshape
+        elif self == KernelType.TRANSPOSE:
+            return validation_transpose
         else:
             raise ValueError(f"Unknown kernel type: {self}")
     
